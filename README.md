@@ -1,121 +1,181 @@
-# RamiGPT
+# Documentação do Projeto Urutau
 
-**RamiGPT** is an AI-powered offensive security agent designed to pwn root accounts. Leveraging [PwnTools](http://github.com/Gallopsled/pwntools) and OpwnAI capabilities, RamiGPT navigated the privilege escalation scenarios of several systems from [VulnHub](https://www.vulnhub.com/), getting root access in less than a minute.
-
-
-## Timing Table
-
-| Task Description | Source | Start Time | End Time | Elapsed Time in Seconds |
-|------------------|------------|------------|----------|--------------|
-| Escalate Linux 1 | https://www.vulnhub.com/entry/escalate_linux-1,323/ | 01.306601 | 14.134318 | 12.827717 |
-| Nyx 1 | https://www.vulnhub.com/entry/nyx-1,535/ | 55.620576 | 05.664968 | 10.044392 |
-| Venom: 1 | https://www.vulnhub.com/entry/venom-1,701/ | 25.598964 | 35.268614 | 09.669650 |
-| digitalworld.local: TORMENT | https://www.vulnhub.com/entry/digitalworldlocal-torment,299/ | 50.893860 | 00.622965 | 09.729105 |
-| digitalworld.local: DEVELOPMENT | https://www.vulnhub.com/entry/digitalworldlocal-development,280/ | 47.539752 | 57.450881 | 09.911129 |
-| Tiki: 1 | https://www.vulnhub.com/entry/tiki-1,525/ | 44.877072 | 55.043536 | 10.166464 |
-| hacksudo: L.P.E. | https://www.vulnhub.com/entry/hacksudo-lpe,698/ | 12.234327 | 22.080433 | 09.846106 |
-| DC: 2 | https://www.vulnhub.com/entry/dc-2,311/ | 16.866599 | 26.526931 | 09.660332 |
-| DevGuru: 1 | https://www.vulnhub.com/entry/devguru-1,620/ | 43.240171 | 53.594361 | 10.354190 |
-| serial: 1 | https://www.vulnhub.com/entry/serial-1,349/ | 23.184360 | 32.802188 | 09.617828 |
-| Dina: 1.0.1 | https://www.vulnhub.com/entry/dina-101,200/ | 22.744572 | 32.429961 | 09.685389 |
+## 🆘 Identificação do Problema
+As equipes de segurança gastam muito tempo executando manualmente scripts de análise de vulnerabilidades (LinPEAS, BeRoot, etc.) e correlacionando resultados, sem uma integração eficiente aos pipelines de desenvolvimento.
 
 ---
 
-## GUI:
+## 💡 Ideia do Projeto
+Desenvolver o **Urutau**, uma plataforma de automação de análise de vulnerabilidades e pentest baseada em nuvem. Ela permitirá que equipes de segurança e DevOps detectem, classifiquem e remediem falhas de forma contínua e escalável.
 
->![alt text](screenshots/poc_pwn.gif)
+---
 
+## 🔥 Descrição do Problema
+- Execução manual de scripts (LinPEAS, BeRoot, etc.).
+- Falta de unificação entre varredura, análise contextual e remediação.
+- Dificuldade de integração com pipelines de desenvolvimento (**shift-left**).
+- Ausência de feedback em tempo real e dashboards consolidados para gestão de riscos.
 
-## Configuration: Setting Up Your OpenAI API Key
+---
 
-To use RamiGPT's capabilities, you'll need an OpenAI API key. Follow these steps to obtain and configure your key:
+## 👥 Stakeholders
+- Equipes de **SecOps / Red Team**
+- **DevOps / SRE**
+- **Gerentes de TI e CISOs**
+- **P&D em Cibersegurança**
+- **Auditoria e Compliance**
 
-### Obtaining an OpenAI API Key
+---
 
-1. **Create an Account:** Visit [OpenAI](https://www.openai.com/) and sign up for an account if you don't already have one.
-2. **Apply for API Access:** Navigate to the API section and apply for access. You might need to provide details about your intended use case.
-3. **Get Your API Key:** Once approved, you will receive an API key. 
+## 🎯 Justificativa
+Adotar uma solução que combina:
+- Execução automatizada de scripts,
+- Análise assistida por IA,
+- Remediação guiada,
 
-### Configuring the API Key in Your Environment
+Isso resulta em:
+- Redução no tempo de detecção e correção de falhas,
+- Aumento da produtividade,
+- Melhoria na postura de segurança corporativa.
 
-1. **Copy the `.env.example` File:** In the root directory of the RamiGPT project, copy the file `.env.example` and name it `.env`.
-   ```
-   cp .env.example .env
-   ```
-2. **Add Your API Key:** Open the `.env` file and add the following line:
-   ```
-   OPENAI_API_KEY=your_api_key_here
-   ```
-   Replace `your_api_key_here` with the API key you obtained from OpenAI.
+---
 
-## Run with Docker
+## 📋 Levantamento de Requisitos
 
-### Prerequisites
+### ✅ Requisitos Funcionais
+- **Varredura Automatizada**
+  - Execução de LinPEAS, BeRoot, Sherlock, etc., em containers isolados.
+  - Agendamento recorrente (cron) ou on-demand.
 
-Before running the project, ensure you have installed:
+- **Análise de Vulnerabilidades**
+  - Integração com **API OpenAI (GPT-4)** para:
+    - Classificação de criticidade,
+    - Sugestões de correção.
+  - Geração de scripts de remediação (playbooks, Ansible, Terraform).
 
-- [Docker](https://docs.docker.com/get-docker/)
-- [Docker Compose](https://docs.docker.com/compose/install/)
-- OpenAI key
+- **Dashboards e Relatórios**
+  - Frontend em **React.js** com:
+    - Heatmaps,
+    - Gráficos de tendência,
+    - Mapa geográfico de ativos vulneráveis.
+  - Exportação de relatórios em **PDF e JSON** para S3.
 
-### Setup
+- **API Pública REST**
+  - Endpoints para:
+    - Iniciar scans,
+    - Obter status,
+    - Baixar relatórios.
+  - Suporte a webhooks (Slack, Jira, GitHub Actions).
 
-Clone the repository and launch the Docker containers:
+- **Modo CTF / Gaming**
+  - Leaderboards, conquistas e badges.
+  - Ambiente isolado para desafios de pentest com cronômetro e pontuação.
 
-```sh
-git clone https://github.com/M507/RamiGPT.git
-cd RamiGPT
-docker compose up -d
-```
+---
 
-Access the application at: [https://127.0.0.1:5000](https://127.0.0.1:5000)
+### ⚙️ Requisitos Não-Funcionais
+- **Escalabilidade**
+  - Backend em **ECS/Fargate** com auto-scale.
+  - Uso de **Lambda** para eventos (S3 uploads, eventos Git).
 
-## Run Locally
+- **Segurança**
+  - TLS 1.3 (via ACM + CloudFront).
+  - IAM Roles granular (least-privilege).
+  - Criptografia em repouso (SSE-S3, RDS encryption).
 
-### Prerequisites
+- **Disponibilidade & Confiabilidade**
+  - Multi-AZ (RDS, S3).
+  - Health checks no ALB.
+  - Plano de **Disaster Recovery (DR)** documentado.
 
-Ensure the following are installed:
+- **Desempenho**
+  - CDN (**CloudFront**) para frontend.
+  - Cache Redis para resultados recentes.
 
-- Python 3 and pip
-- OpenAI key
+- **Compliance & Auditoria**
+  - Logs no **CloudWatch + OpenSearch**.
+  - Modo Compliance (LGPD/GDPR) com geração de evidências.
 
-### Setup
+---
 
-Clone the repository and prepare the environment:
+## 🚀 MVP (Produto Mínimo Viável)
+- Execução on-demand de **LinPEAS/BeRoot** em containers Docker.
+- Dashboard básico com:
+  - Lista de vulnerabilidades,
+  - Classificação via **GPT-4**.
+- Exportação de relatório **JSON** para S3.
 
-```sh
-chmod +x ./generate_certs.sh
-./generate_certs.sh
-pip3 install -r requirements.txt
-python3 app.py
-```
+---
 
-Access the application at: [https://127.0.0.1:5000](https://127.0.0.1:5000)
+## 🏗️ Planejamento Ágil
 
-## Integrated Tools
+### 🔙 Backlog de Tarefas
+- Arquitetura de containerização (**Docker + ECS Task**).
+- Módulo de varredura (**LinPEAS/BeRoot**).
+- Integração com **API OpenAI**.
+- Backend em **Django REST**:
+  - Endpoints de scan, status e relatório.
+- Frontend em **React**:
+  - Exibição de resultados.
+- Infraestrutura com **Terraform**:
+  - EC2/ECS, S3, Lambda, RDS, IAM.
+- Geração de relatórios (PDF/JSON) e envio para S3.
+- Autenticação (**OAuth2 / SSO/SAML**).
+- Pipeline CI/CD (**GitHub Actions → ECR/ECS deploy**).
+- Testes de carga e failover.
 
-RamiGPT integrates several tools for privilege escalation enumeration, including:
+---
 
-- **[BeRoot](https://github.com/AlessandroZ/BeRoot)**: A tool for identifying common privilege escalation vectors in Windows environments.
-- **[LinPEAS](https://github.com/carlospolop/PEASS-ng/tree/master/linPEAS)**: A script that audits Linux environments for potential misconfigurations and vulnerabilities.
+### 🏃‍♂️ Sprints
+| Sprint | Entregas Principais                                                   | Duração |
+|--------|-----------------------------------------------------------------------|---------|
+| Sprint 1 | IaC, Pipeline CI/CD, Varredura Docker                               | 2 semanas |
+| Sprint 2 | OpenAI, Backend REST, Exportação JSON                               | 2 semanas |
+| Sprint 3 | Frontend básico, Dashboard estático, Deploy em ECS/Fargate          | 2 semanas |
+| Sprint 4 | Relatórios PDF, API pública, Webhooks, Testes de Integração         | 2 semanas |
+| Sprint 5 | Autenticação SSO, Modo CTF, Gamificação                              | 2 semanas |
 
-These tools are automatically employed or recommended by RamiGPT depending on the target environment.
+---
 
+## 📌 Quadro de Tarefas
+Utilizar **Jira** com:
+- **Swimlanes**:
+  - To Do
+  - In Progress
+  - Review
+  - Done
+- Tags por componente:
+  - **Infra, Backend, Frontend, Data, Security**
 
-## Features
+---
 
-### Import and export instructions
+## 🎯 Apresentação & Entregáveis
 
-For example, to capture a flag:
->![alt text](screenshots/poc_flag.gif)
+### Estrutura da Apresentação
+1. **Introdução**
+   - Problema + Objetivos do **Urutau**.
+2. **Arquitetura de Solução**
+   - Diagramas AWS + Fluxos de Dados.
+3. **Demonstração Técnica**
+   - Scan on-demand + Análise IA + Relatório.
+4. **Roadmap & Próximos Passos**
+   - Funcionalidades futuras e cronograma.
 
-### Use external tools for enumerations
+---
 
-For example, executing BeRoot and feeding the results to the AI:
->![alt text](screenshots/proof_of_concept_beroot.gif)
+### Recursos Visuais
+- **Diagramas**: UML / C4 (containers, microserviços, integrações).
+- **Wireframes**: Frontend (dashboards, vulnerabilidades, gamificação).
+- **Gráficos de Métricas**:
+  - Tempo médio de scan,
+  - Uso de CPU/RAM no Fargate,
+  - Taxa de false-positives.
 
+---
 
-## Disclaimer
+### Material de Apoio
+- Documento PDF baseado neste template.
+- Slides (**PowerPoint ou Google Slides**) com paleta visual **Urutau**.
+- **Repositório GitHub** com README técnico e exemplos de uso da API.
 
-RamiGPT is intended solely for **educational and authorized security testing**. Use it responsibly and only on systems where you have explicit permission to conduct tests.
-
+---
