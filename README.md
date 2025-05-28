@@ -178,4 +178,4 @@ Utilizar **Jira** com:
 - Slides (**PowerPoint ou Google Slides**) com paleta visual **Urutau**.
 - **Repositório GitHub** com README técnico e exemplos de uso da API.
 
----
+----
